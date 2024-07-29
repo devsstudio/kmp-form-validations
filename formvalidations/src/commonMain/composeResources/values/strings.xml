@@ -1,0 +1,24 @@
+<resources>
+    <string name="cyclone">Cyclone</string>
+    <string name="open_github">Open github</string>
+    <string name="run">Run</string>
+    <string name="stop">Stop</string>
+    <string name="theme">Theme</string>
+
+    <string name="labels_show_password">Mostrar contraseña</string>
+    <string name="labels_hide_password">Ocultar contraseña</string>
+    <string name="labels_error_occurred">Ocurrió un error</string>
+    <string name="labels_confirm">Confirmar</string>
+    <string name="labels_cancel">Cancelar</string>
+    <string name="labels_close">Cerrar</string>
+    <string name="labels_save">Guardar</string>
+    <string name="labels_ok">OK</string>
+
+    <string name="validator_this_value">Este valor</string>
+    <string name="validator_required">%1$s es requerido</string>
+    <string name="validator_min_length">%1$s debe tener mínimo %2$s caracteres</string>
+    <string name="validator_max_length">%1$s debe tener máximo %2$s caracteres</string>
+    <string name="validator_email">%1$s no es un email válido</string>
+    <string name="validator_regex">%1$s no es válido</string>
+    <string name="validator_passwords_must_match">%1$s no coincide</string>
+</resources>

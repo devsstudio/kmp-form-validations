@@ -3,6 +3,8 @@ import com.vanniktech.maven.publish.SonatypeHost
 plugins {
     alias(libs.plugins.multiplatform)
     alias(libs.plugins.android.library)
+    alias(libs.plugins.compose.compiler)
+    alias(libs.plugins.compose)
     id("com.vanniktech.maven.publish") version "0.29.0"
 }
 
@@ -14,13 +16,15 @@ kotlin {
         publishLibraryVariants("release")
         compilations.all {
             kotlinOptions {
-                jvmTarget = "17"
+                jvmTarget = "11"
             }
         }
     }
 
     jvm()
 
+    /*
+    Comment resolves: Task :kotlinStoreYarnLock FAILED
     js {
         browser {
             webpackTask {
@@ -28,7 +32,7 @@ kotlin {
             }
         }
         binaries.executable()
-    }
+    }*/
 
     wasmJs {
         browser()
@@ -56,27 +60,41 @@ kotlin {
         }
     }
 
-    linuxX64 {
+    /*linuxX64 {
         binaries.staticLib {
             baseName = "formvalidations"
         }
-    }
+    }*/
 
 
-    mingwX64 {
+    /*mingwX64 {
         binaries.staticLib {
             baseName = "formvalidations"
         }
-    }
+    }*/
 
     sourceSets {
         commonMain.dependencies {
+            implementation(compose.runtime)
+            implementation(compose.foundation)
+            implementation(compose.material)
+            implementation(compose.material3)
+            implementation(compose.components.resources)
+            implementation(compose.components.uiToolingPreview)
         }
 
         commonTest.dependencies {
             implementation(kotlin("test"))
         }
 
+        androidMain.dependencies {
+            implementation(compose.uiTooling)
+            implementation(libs.androidx.activityCompose)
+        }
+
+        jvmMain.dependencies {
+            implementation(compose.desktop.currentOs)
+        }
     }
 
     //https://kotlinlang.org/docs/native-objc-interop.html#export-of-kdoc-comments-to-generated-objective-c-headers
@@ -94,15 +112,19 @@ android {
         minSdk = 24
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
+    }
+    buildFeatures {
+        //enables a Compose tooling support in the AndroidStudio
+        compose = true
     }
 }
 
 
 mavenPublishing {
 
-    coordinates("pe.devs.kmp", "formvalidations", "1.0.0")
+    coordinates("pe.devs.kmp", "formvalidations", "1.0.4")
 
     pom {
         name.set("Form & Validations")
