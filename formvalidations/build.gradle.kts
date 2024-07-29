@@ -1,7 +1,9 @@
+import com.vanniktech.maven.publish.SonatypeHost
+
 plugins {
     alias(libs.plugins.multiplatform)
     alias(libs.plugins.android.library)
-    id("convention.publication")
+    id("com.vanniktech.maven.publish") version "0.29.0"
 }
 
 group = "pe.devs.kmp.formvalidations"
@@ -95,4 +97,42 @@ android {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
     }
+}
+
+
+mavenPublishing {
+
+    coordinates("pe.devs.kmp", "formvalidations", "1.0.0")
+
+    pom {
+        name.set("Form & Validations")
+        description.set("Form & Validations")
+        inceptionYear.set("2024")
+        url.set("https://github.com/devsstudio/kmp-form-validations/")
+        licenses {
+            license {
+                name.set("The Apache License, Version 2.0")
+                url.set("http://www.apache.org/licenses/LICENSE-2.0.txt")
+                distribution.set("http://www.apache.org/licenses/LICENSE-2.0.txt")
+            }
+        }
+        developers {
+            developer {
+                id.set("devsstudio")
+                name.set("Devs Studio")
+                url.set("https://github.com/devsstudio/")
+            }
+        }
+        scm {
+            url.set("https://github.com/devsstudio/kmp-form-validations/")
+            connection.set("scm:git:git://github.com/devsstudio/kmp-form-validations.git")
+            developerConnection.set("scm:git:ssh://git@github.com/devsstudio/kmp-form-validations.git")
+        }
+    }
+
+    // Configure publishing to Maven Central
+    publishToMavenCentral(SonatypeHost.CENTRAL_PORTAL)
+
+    // Enable GPG signing for all publications
+    signAllPublications()
 }

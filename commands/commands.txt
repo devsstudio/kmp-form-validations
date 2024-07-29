@@ -1,0 +1,2 @@
+# Publish
+./gradlew publishToMavenCentral --no-configuration-cache
