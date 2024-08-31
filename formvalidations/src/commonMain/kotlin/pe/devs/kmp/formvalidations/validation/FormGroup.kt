@@ -9,7 +9,7 @@ import pe.devs.kmp.formvalidations.validation.exception.ValidationException
 
 class FormGroup (
     private val controls: Map<String, FormControl>,
-    private vararg val formGroupValidators: FormGroupValidator
+    private val formGroupValidators: List<FormGroupValidator> = emptyList()
 ) {
     companion object {
         fun getSaver(): Saver<FormGroup, Map<String, Any>> {
@@ -34,7 +34,7 @@ class FormGroup (
                                 labelResource = controlValues["labelResource"] as StringResource,
                                 initialValue = mutableStateOf(controlValues["initialValue"] as String),
                                 error = mutableStateOf(controlValues["error"] as ValidationException),
-                                formControlValidators = controlValues["formControlValidators"] as Array<FormControlValidator>,
+                                formControlValidators = controlValues["formControlValidators"] as List<FormControlValidator>,
                             )
                         }
                     )
@@ -60,7 +60,7 @@ class FormGroup (
             }
         }
         if(isValid) {
-            for (validator in formGroupValidators.toList()) {
+            for (validator in formGroupValidators) {
                 try {
                     validator.validate(controls)
                 } catch (ex: ValidationException) {

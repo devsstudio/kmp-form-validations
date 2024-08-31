@@ -10,14 +10,12 @@ class FormControl (
     val labelResource: StringResource,
     var error: MutableState<ValidationException?> = mutableStateOf(null),
     var initialValue: MutableState<String> = mutableStateOf(""),
-    vararg val formControlValidators: FormControlValidator
+    val formControlValidators: List<FormControlValidator>
 ) {
-    private val formControlValidatorList: List<FormControlValidator> = formControlValidators.toList()
-
     @Throws(ValidationException::class)
     fun validate(): Boolean {
         error.value = null
-        formControlValidatorList.forEach {
+        formControlValidators.forEach {
             it.setLabel(labelResource)
             try {
                 it.validate(initialValue.value)
