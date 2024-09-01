@@ -23,16 +23,14 @@ kotlin {
 
     jvm()
 
-    /*
-    Comment resolves: Task :kotlinStoreYarnLock FAILED
-    js {
+    js(IR) {
         browser {
             webpackTask {
                 mainOutputFileName = "formvalidations.js"
             }
         }
         binaries.executable()
-    }*/
+    }
 
     wasmJs {
         browser()
@@ -124,7 +122,7 @@ android {
 
 mavenPublishing {
 
-    coordinates("pe.devs.kmp", "formvalidations", "1.0.5")
+    coordinates("pe.devs.kmp", "formvalidations", "1.0.6")
 
     pom {
         name.set("Form & Validations")
