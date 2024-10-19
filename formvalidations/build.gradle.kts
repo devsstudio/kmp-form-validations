@@ -122,7 +122,7 @@ android {
 
 mavenPublishing {
 
-    coordinates("pe.devs.kmp", "formvalidations", "1.0.6")
+    coordinates("pe.devs.kmp", "formvalidations", "1.0.7")
 
     pom {
         name.set("Form & Validations")

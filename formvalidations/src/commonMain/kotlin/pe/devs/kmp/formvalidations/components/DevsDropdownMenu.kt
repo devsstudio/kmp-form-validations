@@ -47,6 +47,13 @@ fun <T> DevsDropdownMenu(
     var expanded by remember { mutableStateOf(false) }
     var focusInCount by remember { mutableStateOf(0) }
 
+    //Para cuando se setea el valor directamente
+    if(value != lastValue) {
+        filterText = get(value, options, keyAttr, auxAttr)
+        lastValue = value
+        lastAux = filterText
+    }
+
     /*if (!expanded && lastValue != value) {
         filterText = getLabel(value, options, keyAttr, labelAttr)
     }*/
