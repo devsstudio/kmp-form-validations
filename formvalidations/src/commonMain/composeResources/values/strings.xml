@@ -13,6 +13,8 @@
     <string name="labels_close">Cerrar</string>
     <string name="labels_save">Guardar</string>
     <string name="labels_ok">OK</string>
+    <string name="labels_empty">No hay resultados</string>
+    <string name="labels_try_again">Volver a intentar</string>
 
     <string name="validator_this_value">Este valor</string>
     <string name="validator_required">%1$s es requerido</string>
@@ -21,4 +23,7 @@
     <string name="validator_email">%1$s no es un email válido</string>
     <string name="validator_regex">%1$s no es válido</string>
     <string name="validator_passwords_must_match">%1$s no coincide</string>
+
+    <string name="exception_pagination_error">Ocurrio un error al traer los datos</string>
+
 </resources>

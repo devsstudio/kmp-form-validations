@@ -8,6 +8,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import org.jetbrains.compose.resources.StringResource
@@ -18,9 +19,9 @@ import pe.devs.kmp.formvalidations.validation.exception.ValidationException
 fun DevsTextField(
     modifier: Modifier = Modifier.Companion,
     value: String,
-    labelResource: StringResource,
+    labelResource: StringResource? = null,
     //labelColor: Color = Color.Unspecified,
-    //textStyle: TextStyle = LocalTextStyle.current,
+    textStyle: TextStyle = LocalTextStyle.current,
     placeholderResource: StringResource? = null,
     //placeholderColor: Color = Color.Unspecified,
     colors: TextFieldColors = TextFieldDefaults.textFieldColors(),
@@ -56,13 +57,15 @@ fun DevsTextField(
                 },
             value = value,
             //label = { Text(text = stringResource(resource = labelResource)) },
-            label = {
-                Text(
-                    text = stringResource(resource = labelResource),
-                    color = if (error == null) Color.Unspecified else MaterialTheme.colors.error
-                )
-            },
-            //textStyle = textStyle,
+            label = if (labelResource != null) {
+                {
+                    Text(
+                        text = stringResource(resource = labelResource),
+                        color = if (error == null) Color.Unspecified else MaterialTheme.colors.error
+                    )
+                }
+            } else null,
+            textStyle = textStyle,
             /*placeholder = {
                 Text(text = placeholderResource?.let { stringResource(resource = it) } ?: "",
                     color = if(isError)MaterialTheme.colors.error else Color.Unspecified )

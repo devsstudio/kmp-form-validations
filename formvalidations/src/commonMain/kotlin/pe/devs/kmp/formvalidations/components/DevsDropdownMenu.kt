@@ -12,6 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.PopupProperties
@@ -24,9 +25,9 @@ import pe.devs.kmp.formvalidations.validation.exception.ValidationException
 fun <T> DevsDropdownMenu(
     modifier: Modifier = Modifier.Companion,
     value: String,
-    labelResource: StringResource,
+    labelResource: StringResource? = null,
     //labelColor: Color = Color.Unspecified,
-    //textStyle: TextStyle = LocalTextStyle.current,
+    textStyle: TextStyle = LocalTextStyle.current,
     colors: TextFieldColors = ExposedDropdownMenuDefaults.textFieldColors(),
     enabled: Boolean = true,
     iconColor: Color = Color.Unspecified,
@@ -101,13 +102,15 @@ fun <T> DevsDropdownMenu(
                         }
                     },
                 //label = { Text(text = stringResource(resource = labelResource), color = labelColor) },
-                label = {
-                    Text(
-                        text = stringResource(resource = labelResource),
-                        color = if (error == null) Color.Unspecified else MaterialTheme.colors.error
-                    )
-                },
-                //textStyle = textStyle,
+                label = if (labelResource != null) {
+                    {
+                        Text(
+                            text = stringResource(resource = labelResource),
+                            color = if (error == null) Color.Unspecified else MaterialTheme.colors.error
+                        )
+                    }
+                } else null,
+                textStyle = textStyle,
                 enabled = enabled,
                 colors = colors,
                 value = filterText,

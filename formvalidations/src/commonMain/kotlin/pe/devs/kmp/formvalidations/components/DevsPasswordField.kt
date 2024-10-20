@@ -12,6 +12,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.input.pointer.PointerIcon
 import androidx.compose.ui.input.pointer.pointerHoverIcon
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
@@ -29,9 +30,9 @@ import pe.devs.kmp.formvalidations.formvalidations.generated.resources.labels_sh
 fun DevsPasswordField (
     modifier: Modifier = Modifier.Companion,
     value: String,
-    labelResource: StringResource,
+    labelResource: StringResource? = null,
     //labelColor: Color = Color.Unspecified,
-    //textStyle: TextStyle = LocalTextStyle.current,
+    textStyle: TextStyle = LocalTextStyle.current,
     //placeholderColor: Color = Color.Unspecified,
     colors: TextFieldColors = TextFieldDefaults.textFieldColors(),
     singleLine: Boolean = true,
@@ -67,13 +68,15 @@ fun DevsPasswordField (
                 },
             value = value,
             //label = { Text(text = stringResource(resource = labelResource), color = labelColor) },
-            label = {
-                Text(
-                    text = stringResource(resource = labelResource),
-                    color = if (error == null) Color.Unspecified else MaterialTheme.colors.error
-                )
-            },
-            //textStyle = textStyle,
+            label = if (labelResource != null) {
+                {
+                    Text(
+                        text = stringResource(resource = labelResource),
+                        color = if (error == null) Color.Unspecified else MaterialTheme.colors.error
+                    )
+                }
+            } else null,
+            textStyle = textStyle,
             singleLine = singleLine,
             enabled = enabled,
             //placeholder = { Text(text = "e.g. *******", color = placeholderColor) },

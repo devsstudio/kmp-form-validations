@@ -1,4 +1,5 @@
 import com.vanniktech.maven.publish.SonatypeHost
+import org.jetbrains.kotlin.gradle.targets.js.dsl.ExperimentalWasmDsl
 
 plugins {
     alias(libs.plugins.multiplatform)
@@ -32,6 +33,7 @@ kotlin {
         binaries.executable()
     }
 
+    @OptIn(ExperimentalWasmDsl::class)
     wasmJs {
         browser()
         binaries.executable()
@@ -122,7 +124,7 @@ android {
 
 mavenPublishing {
 
-    coordinates("pe.devs.kmp", "formvalidations", "1.0.7")
+    coordinates("pe.devs.kmp", "formvalidations", "1.0.9")
 
     pom {
         name.set("Form & Validations")
