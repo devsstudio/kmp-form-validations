@@ -10,7 +10,7 @@ import pe.devs.kmp.formvalidations.formvalidations.generated.resources.validator
 class PasswordsMustMatchValidator(private val source: String, target: String) : FormGroupValidator(target) {
 
     override fun isValid(controls: Map<String, FormControl>): Boolean {
-        return (controls[source]?.initialValue?.value ?: "") == (controls[target]?.initialValue?.value ?: "")
+        return (controls[source]?.getValue() ?: "") == (controls[target]?.getValue() ?: "")
     }
 
     override fun getErrorResource(label: StringResource): ValidationException {

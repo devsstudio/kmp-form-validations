@@ -17,14 +17,15 @@ import org.jetbrains.compose.resources.stringResource
 @Composable
 fun DevsLinkButton(
     textResource: StringResource,
+    color: Color = Color.Blue,
     onClick: () -> Unit) {
     Button(
         onClick = onClick,
         colors = ButtonDefaults.buttonColors(
             backgroundColor = Color.Transparent,
-            contentColor = Color.Blue,
+            contentColor = color,
             disabledBackgroundColor = Color.Transparent,
-            disabledContentColor = Color.Blue
+            disabledContentColor = color
         ),
         elevation = ButtonDefaults.elevation(
             defaultElevation = 0.dp,
@@ -37,7 +38,7 @@ fun DevsLinkButton(
     ) {
         Text(
             text = stringResource(textResource),
-            color = Color.Blue,
+            color = color,
             style = TextStyle(
                 fontSize = 16.sp
             )
