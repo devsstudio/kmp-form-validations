@@ -4,7 +4,7 @@ import androidx.compose.runtime.Composable
 import org.jetbrains.compose.resources.StringResource
 import org.jetbrains.compose.resources.stringResource
 
-class ValidationException(
+open class ValidationException(
     override val message: String,
     private vararg val args: Any = emptyArray()
 ) : Exception(message) {

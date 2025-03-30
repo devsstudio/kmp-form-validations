@@ -6,7 +6,7 @@ plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.compose.compiler)
     alias(libs.plugins.compose)
-    id("com.vanniktech.maven.publish") version "0.29.0"
+    id("com.vanniktech.maven.publish") version "0.31.0"
 }
 
 group = "pe.devs.kmp.formvalidations"
@@ -124,7 +124,7 @@ android {
 
 mavenPublishing {
 
-    coordinates("pe.devs.kmp", "formvalidations", "1.0.10")
+    coordinates("pe.devs.kmp", "formvalidations", "1.0.11")
 
     pom {
         name.set("Form & Validations")
