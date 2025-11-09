@@ -5,7 +5,10 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.material.*
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ExposedDropdownMenuDefaults
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.TextFieldColors
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
@@ -18,16 +21,15 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.PopupProperties
 import org.jetbrains.compose.resources.*
 import pe.devs.kmp.formvalidations.icons.MaterialSymbols
-import pe.devs.kmp.formvalidations.validation.exception.ValidationException
 
-@OptIn(ExperimentalMaterialApi::class)
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun <T> DevsDropdownMenu(
-    modifier: Modifier = Modifier.Companion,
+    modifier: Modifier = Modifier,
     value: String,
     labelResource: StringResource? = null,
     //labelColor: Color = Color.Unspecified,
-    textStyle: TextStyle = LocalTextStyle.current,
+    textStyle: TextStyle = androidx.compose.material3.LocalTextStyle.current,
     colors: TextFieldColors = ExposedDropdownMenuDefaults.textFieldColors(),
     enabled: Boolean = true,
     iconColor: Color = Color.Unspecified,
@@ -37,7 +39,7 @@ fun <T> DevsDropdownMenu(
     auxAttr: (T) -> String,
     labelAttr: (T) -> String,
     prependImage: ((T) -> DrawableResource)? = null,
-    error: ValidationException? = null,
+    error: (@Composable () -> String?)? = null,
     onChange: (T) -> Unit,
     onFocus: (() -> Unit)? = null,
     onBlur: (() -> Unit)? = null,
@@ -48,18 +50,12 @@ fun <T> DevsDropdownMenu(
     var expanded by remember { mutableStateOf(false) }
     var focusInCount by remember { mutableStateOf(0) }
 
-    //Para cuando se setea el valor directamente
-    if(value != lastValue) {
+    if (value != lastValue) {
         filterText = get(value, options, keyAttr, auxAttr)
         lastValue = value
         lastAux = filterText
     }
 
-    /*if (!expanded && lastValue != value) {
-        filterText = getLabel(value, options, keyAttr, labelAttr)
-    }*/
-
-    // Effect to reset form when the screen is popped
     DisposableEffect(Unit) {
         onDispose {
             filterText = ""
@@ -69,8 +65,10 @@ fun <T> DevsDropdownMenu(
         }
     }
 
+    val errorMessage = error?.invoke()
+
     Column {
-        ExposedDropdownMenuBox(
+        androidx.compose.material3.ExposedDropdownMenuBox(
             expanded = expanded,
             onExpandedChange = {
                 expanded = !expanded
@@ -79,10 +77,9 @@ fun <T> DevsDropdownMenu(
                 }
             },
         ) {
-            TextField(
+            androidx.compose.material3.TextField(
                 modifier = modifier
                     .onFocusChanged {
-                        //Si se hace click fuera sin seleccionar nada, o sin resultados
                         if (!it.hasFocus && options.find { x -> labelAttr(x) == filterText } == null) {
                             filterText = lastAux
                         }
@@ -91,61 +88,53 @@ fun <T> DevsDropdownMenu(
                         }
                         if (focusInCount > 0) {
                             if (it.hasFocus) {
-                                if (onFocus != null) {
-                                    onFocus()
-                                }
+                                onFocus?.invoke()
                             } else {
-                                if (onBlur != null) {
-                                    onBlur()
-                                }
+                                onBlur?.invoke()
                             }
                         }
                     },
-                //label = { Text(text = stringResource(resource = labelResource), color = labelColor) },
-                label = if (labelResource != null) {
+                label = labelResource?.let {
                     {
-                        Text(
-                            text = stringResource(resource = labelResource),
-                            color = if (error == null) Color.Unspecified else MaterialTheme.colors.error
+                        androidx.compose.material3.Text(
+                            text = stringResource(resource = it),
+                            color = if (errorMessage == null) Color.Unspecified else MaterialTheme.colorScheme.error
                         )
                     }
-                } else null,
+                },
                 textStyle = textStyle,
                 enabled = enabled,
                 colors = colors,
                 value = filterText,
                 readOnly = !expanded,
                 singleLine = true,
-                isError = error != null,
+                isError = errorMessage != null,
                 onValueChange = {
                     filterText = it
                 },
-                leadingIcon =
-                if (leadingIcon != null) {
+                leadingIcon = leadingIcon?.let {
                     {
-                        Icon(
-                            imageVector = leadingIcon,
+                        androidx.compose.material3.Icon(
+                            imageVector = it,
                             contentDescription = null,
                             modifier = Modifier.size(24.dp),
-                            tint = if (error == null) iconColor else MaterialTheme.colors.error
+                            tint = if (errorMessage == null) iconColor else MaterialTheme.colorScheme.error
                         )
                     }
-                } else null,
+                },
                 trailingIcon = {
                     val imageVector = if (expanded) {
                         MaterialSymbols.Normal.rememberArrowDropUp()
                     } else {
                         MaterialSymbols.Normal.rememberArrowDropDown()
                     }
-
-                    Icon(
+                    androidx.compose.material3.Icon(
                         imageVector = imageVector,
                         contentDescription = null,
-                        tint = if (error == null) iconColor else MaterialTheme.colors.error
+                        tint = if (errorMessage == null) iconColor else MaterialTheme.colorScheme.error
                     )
                 },
             )
-
 
             val filteredOptions =
                 options.filter {
@@ -155,7 +144,7 @@ fun <T> DevsDropdownMenu(
                     )
                 }
 
-            DropdownMenu(
+            androidx.compose.material3.DropdownMenu(
                 expanded = expanded,
                 properties = PopupProperties(focusable = false),
                 modifier = modifier.exposedDropdownSize(),
@@ -164,8 +153,8 @@ fun <T> DevsDropdownMenu(
                 },
             ) {
                 filteredOptions.forEach { option ->
-                    DropdownMenuItem(
-                        content = {
+                    androidx.compose.material3.DropdownMenuItem(
+                        text = {
                             prependImage?.let {
                                 Image(
                                     painter = painterResource(prependImage(option)),
@@ -173,7 +162,7 @@ fun <T> DevsDropdownMenu(
                                 )
                                 Spacer(modifier = Modifier.width(4.dp))
                             }
-                            Text(
+                            androidx.compose.material3.Text(
                                 text = labelAttr(option),
                             )
                         },
@@ -189,10 +178,10 @@ fun <T> DevsDropdownMenu(
                 }
             }
         }
-        error?.let {
-            Text(
-                error.resolveMessage(),
-                color = MaterialTheme.colors.error,
+        errorMessage?.let {
+            androidx.compose.material3.Text(
+                text = it,
+                color = MaterialTheme.colorScheme.error,
                 fontSize = 12.sp,
                 maxLines = 1,
             )

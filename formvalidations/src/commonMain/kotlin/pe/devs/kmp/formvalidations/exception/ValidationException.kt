@@ -1,4 +1,4 @@
-package pe.devs.kmp.formvalidations.validation.exception
+package pe.devs.kmp.formvalidations.exception
 
 import androidx.compose.runtime.Composable
 import org.jetbrains.compose.resources.StringResource

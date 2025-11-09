@@ -1,17 +1,21 @@
-package pe.devs.kmp.formvalidations.validation
+package pe.devs.kmp.formvalidations.classes
 
+import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import pe.devs.kmp.formvalidations.validation.abstracts.FormControlValidator
-import pe.devs.kmp.formvalidations.validation.exception.ValidationException
 import org.jetbrains.compose.resources.StringResource
+import pe.devs.kmp.formvalidations.exception.ValidationException
 
 class FormControl (
-    val labelResource: StringResource,
-    val initialValue: String = "",
-    val formControlValidators: List<FormControlValidator>
+    private val initialValue: String = ""
 ) {
+    lateinit var labelResource: StringResource
+    var formControlValidators: List<FormControlValidator> = emptyList()
+
     private var error: MutableState<ValidationException?> = mutableStateOf(null)
+
+    private var errorMessage: MutableState<String?> = mutableStateOf(null)
     private var currentValue: MutableState<String> = mutableStateOf("")
 
     init {
@@ -21,16 +25,21 @@ class FormControl (
     @Throws(ValidationException::class)
     fun validate(): Boolean {
         error.value = null
+        errorMessage.value = null
         formControlValidators.forEach {
             it.setLabel(labelResource)
             try {
                 it.validate(currentValue.value)
-            } catch(ex: ValidationException) {
+            } catch (ex: ValidationException) {
                 error.value = ex
                 return false
             }
         }
         return true
+    }
+
+    fun getInitialValue(): String {
+        return this.initialValue
     }
 
     fun setValue(value: String): FormControl {
@@ -42,13 +51,28 @@ class FormControl (
         return currentValue.value
     }
 
-    fun setError(error: ValidationException?): FormControl {
+    fun setError(error: ValidationException): FormControl {
         this.error.value = error
         return this
     }
 
-    fun getError(): ValidationException? {
-        return this.error.value
+    fun setErrorMessage(errorMessage: String?): FormControl {
+        this.errorMessage.value = errorMessage
+        return this
+    }
+
+    fun getErrorMessage(): String? {
+        return this.errorMessage.value
+    }
+
+    @Composable
+    fun resolveErrorMessage(): String? {
+        //Si hay error de validación resolvemos ese
+        if (this.error.value != null) {
+            this.errorMessage.value = this.error.value?.resolveMessage()
+        }
+        //Si no mostramos el actual
+        return this.errorMessage.value
     }
 
     fun reset() {

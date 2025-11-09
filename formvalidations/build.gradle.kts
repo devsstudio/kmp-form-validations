@@ -81,6 +81,7 @@ kotlin {
             implementation(compose.material3)
             implementation(compose.components.resources)
             implementation(compose.components.uiToolingPreview)
+            implementation(libs.datetime)
         }
 
         commonTest.dependencies {
@@ -124,7 +125,7 @@ android {
 
 mavenPublishing {
 
-    coordinates("pe.devs.kmp", "formvalidations", "1.0.11")
+    coordinates("pe.devs.kmp", "formvalidations", "1.0.12")
 
     pom {
         name.set("Form & Validations")

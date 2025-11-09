@@ -4,10 +4,11 @@ kotlin = "2.0.0"
 compose = "1.6.11"
 androidx-activityCompose = "1.9.1"
 agp = "8.2.2"
+datetime = "0.6.2"
 
 [libraries]
 androidx-activityCompose = { module = "androidx.activity:activity-compose", version.ref = "androidx-activityCompose" }
-
+datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "datetime" }
 
 [plugins]
 

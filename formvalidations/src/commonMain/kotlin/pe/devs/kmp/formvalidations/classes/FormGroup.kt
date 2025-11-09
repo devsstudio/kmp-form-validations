@@ -1,28 +1,26 @@
-package pe.devs.kmp.formvalidations.validation
+package pe.devs.kmp.formvalidations.classes
 
+import androidx.compose.runtime.Composable
 import androidx.compose.runtime.saveable.Saver
-import org.jetbrains.compose.resources.StringResource
-import pe.devs.kmp.formvalidations.validation.abstracts.FormControlValidator
+import pe.devs.kmp.formvalidations.exception.ValidationException
 import pe.devs.kmp.formvalidations.validation.abstracts.FormGroupValidator
-import pe.devs.kmp.formvalidations.validation.exception.ValidationException
 
 class FormGroup (
     private val controls: Map<String, FormControl>,
-    private val formGroupValidators: List<FormGroupValidator> = emptyList()
 ) {
+    var formGroupValidators: List<FormGroupValidator> = emptyList()
+
     companion object {
+        //El saver solo debe guardar valores nativos sino fallará en Android
         fun getSaver(): Saver<FormGroup, Map<String, Any>> {
             return Saver<FormGroup, Map<String, Any>>(
                 save = { formGroup ->
                     mapOf(
                         "controls" to formGroup.controls.mapValues { (_, formControl) ->
                             mapOf(
-                                "labelResource" to formControl.labelResource,
-                                "initialValue" to formControl.initialValue,
-                                "formControlValidators" to formControl.formControlValidators,
-                                //Valores privados
+                                "initialValue" to formControl.getInitialValue(),
                                 "value" to formControl.getValue(),
-                                "error" to formControl.getError(),
+                                "errorMessage" to formControl.getErrorMessage(),
                             )
                         }
                     )
@@ -32,12 +30,10 @@ class FormGroup (
                     FormGroup(
                         controls = controls.mapValues { (_, controlValues) ->
                             FormControl(
-                                labelResource = controlValues["labelResource"] as StringResource,
-                                initialValue = controlValues["initialValue"] as String,
-                                formControlValidators = controlValues["formControlValidators"] as List<FormControlValidator>,
+                                initialValue = controlValues["initialValue"] as String
                             )
                                 .setValue(controlValues["value"] as String)
-                                .setError(controlValues["error"] as? ValidationException)
+                                .setErrorMessage(controlValues["errorMessage"] as? String?)
                         }
                     )
                 }
@@ -49,6 +45,7 @@ class FormGroup (
         return controls[attribute]
     }
 
+    @Composable
     fun validate(
         onValidate: (Boolean) -> Unit,
         finally: (() -> Unit)? = null
@@ -57,11 +54,11 @@ class FormGroup (
         //var error: ValidationException? = null
         //val cleaned: MutableMap<String, Any> = mutableMapOf()
         for ((key, control) in controls) {
-            if(!control.validate()) {
+            if (!control.validate()) {
                 isValid = false
             }
         }
-        if(isValid) {
+        if (isValid) {
             for (validator in formGroupValidators) {
                 try {
                     validator.validate(controls)

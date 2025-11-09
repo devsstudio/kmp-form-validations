@@ -15,6 +15,24 @@
     <string name="labels_ok">OK</string>
     <string name="labels_empty">No hay resultados</string>
     <string name="labels_try_again">Volver a intentar</string>
+    <string-array name="label_months">
+        <item>enero</item>
+        <item>febrero</item>
+        <item>marzo</item>
+        <item>abril</item>
+        <item>mayo</item>
+        <item>junio</item>
+        <item>julio</item>
+        <item>agosto</item>
+        <item>septiembre</item>
+        <item>octubre</item>
+        <item>noviembre</item>
+        <item>diciembre</item>
+    </string-array>
+    <string name="label_formatted_datetime">%1$d de %2$s de %3$d a las %4$d:%5$s %6$s</string>
+    <string name="label_formatted_date">%1$d de %2$s de %3$d</string>
+    <string name="label_select_date">Seleccione fecha</string>
+    <string name="label_select_hour">Seleccione hora</string>
 
     <string name="validator_this_value">Este valor</string>
     <string name="validator_required">%1$s es requerido</string>
@@ -23,6 +41,10 @@
     <string name="validator_email">%1$s no es un email válido</string>
     <string name="validator_regex">%1$s no es válido</string>
     <string name="validator_passwords_must_match">%1$s no coincide</string>
+    <string name="validator_min">%1$s debe ser mayor o igual que %2$s</string>
+    <string name="validator_max">%1$s debe ser menor o igual que %2$s</string>
+    <string name="validator_is_number">%1$s debe ser un número</string>
+    <string name="validator_is_date">%1$s debe ser una fecha válida</string>
 
     <string name="exception_pagination_error">Ocurrio un error al traer los datos</string>
 

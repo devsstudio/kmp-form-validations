@@ -1,7 +1,7 @@
 package pe.devs.kmp.formvalidations.validation.abstracts
 
-import pe.devs.kmp.formvalidations.validation.FormControl
-import pe.devs.kmp.formvalidations.validation.exception.ValidationException
+import pe.devs.kmp.formvalidations.classes.FormControl
+import pe.devs.kmp.formvalidations.exception.ValidationException
 import org.jetbrains.compose.resources.StringResource
 import pe.devs.kmp.formvalidations.formvalidations.generated.resources.Res
 import pe.devs.kmp.formvalidations.formvalidations.generated.resources.validator_this_value

@@ -2,7 +2,9 @@ package pe.devs.kmp.formvalidations.components
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.size
-import androidx.compose.material.*
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.TextFieldColors
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.onFocusChanged
@@ -13,7 +15,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import org.jetbrains.compose.resources.StringResource
 import org.jetbrains.compose.resources.stringResource
-import pe.devs.kmp.formvalidations.validation.exception.ValidationException
 
 @Composable
 fun DevsTextField(
@@ -21,35 +22,37 @@ fun DevsTextField(
     value: String,
     labelResource: StringResource? = null,
     //labelColor: Color = Color.Unspecified,
-    textStyle: TextStyle = LocalTextStyle.current,
+    textStyle: TextStyle = androidx.compose.material3.LocalTextStyle.current,
     placeholderResource: StringResource? = null,
     //placeholderColor: Color = Color.Unspecified,
-    colors: TextFieldColors = TextFieldDefaults.textFieldColors(),
+    colors: TextFieldColors = TextFieldDefaults.colors(),
     singleLine: Boolean = true,
     enabled: Boolean = true,
     iconColor: Color = Color.Unspecified,
     leadingIcon: ImageVector? = null,
-    error: ValidationException? = null,
+    error: (@Composable () -> String?)? = null,
     onValueChange: (String) -> Unit,
     onFocus: (() -> Unit)? = null,
     onBlur: (() -> Unit)? = null,
 ) {
     var focusInCount by remember { mutableStateOf(0) }
 
+    val errorMessage = error?.invoke()
+
     Column {
-        TextField(
+        androidx.compose.material3.TextField(
             modifier = modifier
                 .onFocusChanged {
-                    if(it.hasFocus) {
+                    if (it.hasFocus) {
                         focusInCount++
                     }
                     if (focusInCount > 0) {
-                        if(it.hasFocus) {
-                            if(onFocus != null) {
+                        if (it.hasFocus) {
+                            if (onFocus != null) {
                                 onFocus()
                             }
-                        }else{
-                            if(onBlur != null) {
+                        } else {
+                            if (onBlur != null) {
                                 onBlur()
                             }
                         }
@@ -59,9 +62,9 @@ fun DevsTextField(
             //label = { Text(text = stringResource(resource = labelResource)) },
             label = if (labelResource != null) {
                 {
-                    Text(
+                    androidx.compose.material3.Text(
                         text = stringResource(resource = labelResource),
-                        color = if (error == null) Color.Unspecified else MaterialTheme.colors.error
+                        color = if (errorMessage == null) Color.Unspecified else MaterialTheme.colorScheme.error
                     )
                 }
             } else null,
@@ -71,35 +74,34 @@ fun DevsTextField(
                     color = if(isError)MaterialTheme.colors.error else Color.Unspecified )
             },*/
             placeholder = {
-                Text(text = placeholderResource?.let { stringResource(resource = it) } ?: "")
+                androidx.compose.material3.Text(text = placeholderResource?.let { stringResource(resource = it) } ?: "")
             },
             singleLine = singleLine,
             enabled = enabled,
             colors = colors,
-            isError = error != null,
+            isError = errorMessage != null,
             leadingIcon =
-            if (leadingIcon != null) {
-                {
-                    Icon(
-                        imageVector = leadingIcon,
-                        contentDescription = null,
-                        modifier = Modifier.size(24.dp),
-                        tint = if (error == null) iconColor else MaterialTheme.colors.error
-                    )
-                }
-            } else null,
+                if (leadingIcon != null) {
+                    {
+                        androidx.compose.material3.Icon(
+                            imageVector = leadingIcon,
+                            contentDescription = null,
+                            modifier = Modifier.size(24.dp),
+                            tint = if (errorMessage == null) iconColor else MaterialTheme.colorScheme.error
+                        )
+                    }
+                } else null,
             onValueChange = {
                 onValueChange(it)
             },
         )
-        error?.let {
-            Text(
-                error.resolveMessage(),
-                color = MaterialTheme.colors.error,
+        errorMessage?.let {
+            androidx.compose.material3.Text(
+                text = it,
+                color = MaterialTheme.colorScheme.error,
                 fontSize = 12.sp,
                 maxLines = 1,
             )
         }
     }
-
 }

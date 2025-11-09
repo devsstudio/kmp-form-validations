@@ -1,10 +1,6 @@
 package pe.devs.kmp.formvalidations.components
 
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.AlertDialog
-import androidx.compose.material.Icon
-import androidx.compose.material.Text
-import androidx.compose.material.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -16,7 +12,6 @@ import pe.devs.kmp.formvalidations.formvalidations.generated.resources.labels_ca
 import pe.devs.kmp.formvalidations.formvalidations.generated.resources.labels_confirm
 import pe.devs.kmp.formvalidations.formvalidations.generated.resources.labels_ok
 
-
 //https://medium.com/@dheerubhadoria/jetpack-compose-ui-alert-dialog-example-code-26240fc19811
 @Composable
 fun DevsConfirmDialog(
@@ -26,41 +21,41 @@ fun DevsConfirmDialog(
     onConfirmation: () -> Unit,
     onDismissRequest: () -> Unit,
 ) {
-    AlertDialog(
+    androidx.compose.material3.AlertDialog(
         title = {
-            Text(text = stringResource(dialogTitle))
+            androidx.compose.material3.Text(text = stringResource(dialogTitle))
         },
         text = {
             Row {
                 if (icon != null) {
-                    Icon(
+                    androidx.compose.material3.Icon(
                         imageVector = icon,
                         contentDescription = null,
                         modifier = Modifier.size(24.dp), // Tamaño del icono
                     )
                 }
-                Text(text = dialogText)
+                androidx.compose.material3.Text(text = dialogText)
             }
         },
         onDismissRequest = {
             onDismissRequest()
         },
         confirmButton = {
-            TextButton(
+            androidx.compose.material3.TextButton(
                 onClick = {
                     onConfirmation()
                 }
             ) {
-                Text(text = stringResource(Res.string.labels_confirm))
+                androidx.compose.material3.Text(text = stringResource(Res.string.labels_confirm))
             }
         },
         dismissButton = {
-            TextButton(
+            androidx.compose.material3.TextButton(
                 onClick = {
                     onDismissRequest()
                 }
             ) {
-                Text(text = stringResource(Res.string.labels_cancel))
+                androidx.compose.material3.Text(text = stringResource(Res.string.labels_cancel))
             }
         }
     )
@@ -73,36 +68,36 @@ fun DevsAlertDialog(
     icon: ImageVector? = null, // Parámetro opcional para el icono
     onDismissRequest: () -> Unit,
 ) {
-    AlertDialog(
+    androidx.compose.material3.AlertDialog(
         title = {
             Row(Modifier.fillMaxWidth()) {
                 Spacer(modifier = Modifier.padding(5.dp))
                 if (icon != null) {
-                    Icon(
+                    androidx.compose.material3.Icon(
                         imageVector = icon,
                         contentDescription = null,
                         modifier = Modifier.size(24.dp), // Tamaño del icono
                     )
                 }
-                Text(text = stringResource(dialogTitle))
+                androidx.compose.material3.Text(text = stringResource(dialogTitle))
             }
         },
         text = {
             Column(Modifier.fillMaxWidth()) {
 
-                Text(text = dialogText)
+                androidx.compose.material3.Text(text = dialogText)
             }
         },
         onDismissRequest = {
             onDismissRequest()
         },
         confirmButton = {
-            TextButton(
+            androidx.compose.material3.TextButton(
                 onClick = {
                     onDismissRequest()
                 }
             ) {
-                Text(text = stringResource(Res.string.labels_ok))
+                androidx.compose.material3.Text(text = stringResource(Res.string.labels_ok))
             }
         },
         dismissButton = null
