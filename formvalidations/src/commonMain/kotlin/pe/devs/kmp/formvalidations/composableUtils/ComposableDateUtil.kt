@@ -1,6 +1,7 @@
 package pe.devs.kmp.formvalidations.composableUtils
 
 import androidx.compose.runtime.Composable
+import kotlinx.datetime.number
 import org.jetbrains.compose.resources.stringArrayResource
 import org.jetbrains.compose.resources.stringResource
 import pe.devs.kmp.formvalidations.formvalidations.generated.resources.Res
@@ -19,13 +20,13 @@ object ComposableDateUtil {
 
         val dt = TimeUtil.parseUtcMillisToLocalDateTime(millis, zoneId)
 
-        val monthIndex = dt.date.monthNumber - 1 // Mes 1 = enero → índice 0
+        val monthIndex = dt.date.month.number - 1 // Mes 1 = enero → índice 0
         val monthName = months.getOrNull(monthIndex) ?: ""
 
 
         return stringResource(
             Res.string.label_formatted_date,
-            dt.date.dayOfMonth.toString(),
+            dt.date.day.toString(),
             monthName,
             dt.date.year.toString()
         )
@@ -39,7 +40,7 @@ object ComposableDateUtil {
 
         val dt = TimeUtil.parseUtcMillisToLocalDateTime(millis, zoneId)
 
-        val monthIndex = dt.date.monthNumber - 1 // Mes 1 = enero → índice 0
+        val monthIndex = dt.date.month.number - 1 // Mes 1 = enero → índice 0
         val monthName = months.getOrNull(monthIndex) ?: ""
 
         val hour = dt.hour % 12
@@ -49,7 +50,7 @@ object ComposableDateUtil {
 
         return stringResource(
             Res.string.label_formatted_datetime,
-            dt.date.dayOfMonth.toString(),
+            dt.date.day.toString(),
             monthName,
             dt.date.year.toString(),
             hour12.toString(),
